@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#101314" />
+  <meta name="description" content="Gratis parkeren rondom Dreef 2, Haarlem, top 5 dichtstbijzijnde gratis parkeeropties met routes voor auto, fiets en lopen." />
+  <title>Gratis Parkeren Haarlem, vanaf Dreef 2</title>
+  <style>
+    :root{
+      --bg:#0b0f10;
+      --panel:#14191b;
+      --panel2:#1b2225;
+      --text:#f4f5f2;
+      --muted:#a7b0ad;
+      --line:rgba(255,255,255,.11);
+      --accent:#d8ff69;
+      --accent2:#9be7ff;
+      --warn:#ffd166;
+      --bad:#ff6b6b;
+      --ok:#80ed99;
+      --shadow:0 18px 60px rgba(0,0,0,.38);
+      --radius:22px;
+      --radius2:16px;
+      --tap:52px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(216,255,105,.18), transparent 34%),
+        radial-gradient(circle at 82% 12%, rgba(155,231,255,.16), transparent 34%),
+        linear-gradient(180deg,#0b0f10 0%,#101314 44%,#080a0b 100%);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      line-height:1.45;
+      -webkit-font-smoothing:antialiased;
+      padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+    }
+
+    a{color:inherit}
+    button, a.button{
+      min-height:var(--tap);
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      font:inherit;
+      font-weight:760;
+      letter-spacing:-.01em;
+      padding:13px 15px;
+      text-decoration:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
+      cursor:pointer;
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    button.primary, a.primary{
+      background:linear-gradient(135deg,var(--accent),#bfff00);
+      color:#0c1009;
+      border-color:rgba(216,255,105,.35);
+      box-shadow:0 12px 34px rgba(216,255,105,.14);
+    }
+
+    button.blue, a.blue{
+      background:linear-gradient(135deg,var(--accent2),#9dffdf);
+      color:#061012;
+      border-color:rgba(155,231,255,.3);
+    }
+
+    button:active, a.button:active{transform:translateY(1px)}
+    .app{
+      width:min(980px,100%);
+      margin:0 auto;
+      padding:18px 14px 34px;
+    }
+
+    .hero{
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:22px 18px 18px;
+      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .hero:before{
+      content:"";
+      position:absolute;
+      inset:-60px -40px auto auto;
+      width:170px;
+      height:170px;
+      border-radius:50%;
+      background:rgba(216,255,105,.14);
+      filter:blur(8px);
+      pointer-events:none;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      color:#0d1108;
+      background:var(--accent);
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:12px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+
+    h1{
+      margin:15px 0 8px;
+      font-size:clamp(29px,8vw,54px);
+      line-height:.95;
+      letter-spacing:-.06em;
+    }
+
+    .sub{
+      margin:0;
+      color:var(--muted);
+      font-size:16px;
+      max-width:62ch;
+    }
+
+    .summary{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:16px;
+    }
+
+    .pillgrid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin-top:16px;
+    }
+
+    .pill{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:11px 10px;
+      background:rgba(0,0,0,.18);
+      min-height:68px;
+    }
+
+    .pill b{
+      display:block;
+      font-size:18px;
+      letter-spacing:-.03em;
+    }
+
+    .pill span{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:2px;
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:15px;
+    }
+
+    .status{
+      margin-top:13px;
+      color:var(--muted);
+      font-size:13px;
+      border-left:3px solid var(--accent);
+      padding-left:10px;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.035));
+      overflow:hidden;
+      box-shadow:0 14px 40px rgba(0,0,0,.2);
+    }
+
+    .cardHead{
+      padding:16px 15px 12px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .rank{
+      width:42px;
+      height:42px;
+      border-radius:15px;
+      background:var(--accent);
+      color:#10140a;
+      display:grid;
+      place-items:center;
+      font-weight:950;
+      flex:0 0 auto;
+      box-shadow:0 12px 30px rgba(216,255,105,.15);
+    }
+
+    .titleWrap{flex:1}
+    .titleWrap h2{
+      margin:0;
+      font-size:21px;
+      line-height:1.05;
+      letter-spacing:-.04em;
+    }
+
+    .titleWrap p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border:1px solid rgba(128,237,153,.32);
+      color:#b7ffca;
+      background:rgba(128,237,153,.09);
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:12px;
+      font-weight:850;
+      white-space:nowrap;
+    }
+
+    .cardBody{
+      padding:14px 15px 15px;
+    }
+
+    .meta{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+      margin-bottom:12px;
+    }
+
+    .metaItem{
+      border:1px solid var(--line);
+      border-radius:15px;
+      padding:10px;
+      background:rgba(0,0,0,.16);
+    }
+
+    .metaItem span{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .metaItem b{
+      display:block;
+      margin-top:3px;
+      font-size:14px;
+      letter-spacing:-.02em;
+    }
+
+    .sourceBox{
+      border:1px solid rgba(255,209,102,.26);
+      background:rgba(255,209,102,.07);
+      color:#ffe6a3;
+      border-radius:16px;
+      padding:11px;
+      font-size:13px;
+      margin:10px 0 12px;
+    }
+
+    .routeGrid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:9px;
+      margin-top:10px;
+    }
+
+    .mini{
+      color:var(--muted);
+      font-size:12px;
+      margin:9px 0 0;
+    }
+
+    .footer{
+      color:var(--muted);
+      font-size:12px;
+      padding:18px 4px 6px;
+    }
+
+    .footer strong{color:var(--text)}
+    .note{
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:20px;
+      background:rgba(255,255,255,.05);
+      padding:13px;
+      margin-top:16px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .sticky{
+      position:sticky;
+      bottom:0;
+      z-index:5;
+      padding:10px 0 calc(10px + env(safe-area-inset-bottom));
+      background:linear-gradient(180deg,transparent,rgba(8,10,11,.94) 28%);
+      margin-top:4px;
+    }
+
+    .stickyInner{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .hidden{display:none !important}
+
+    @media (min-width:720px){
+      .app{padding:28px 22px 44px}
+      .summary{grid-template-columns:1.15fr .85fr}
+      .actions{grid-template-columns:1fr 1fr 1fr}
+      .cards{grid-template-columns:1fr 1fr}
+      .card:first-child{grid-column:1 / -1}
+      .routeGrid{grid-template-columns:repeat(3,1fr)}
+      .sticky{display:none}
+    }
+
+    @media (prefers-reduced-motion:no-preference){
+      .card, .hero{animation:rise .45s ease both}
+      .card:nth-child(2){animation-delay:.04s}
+      .card:nth-child(3){animation-delay:.08s}
+      .card:nth-child(4){animation-delay:.12s}
+      .card:nth-child(5){animation-delay:.16s}
+      @keyframes rise{
+        from{opacity:0; transform:translateY(10px)}
+        to{opacity:1; transform:translateY(0)}
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <span class="eyebrow">Gratis parkeren, Haarlem Zuid/Centrum</span>
+      <h1>Top 5 gratis plekken vanaf Dreef 2</h1>
+      <p class="sub">
+        Eén mobiele pagina voor Android Chrome. Zet GPS aan, kies een gratis straatdeel, open direct de route met auto, fiets of lopen. Basis: officiële parkeerzone info van Gemeente Haarlem. Tijdelijke borden en straatborden blijven leidend.
+      </p>
+
+      <div class="summary">
+        <div>
+          <div class="pillgrid">
+            <div class="pill"><b>0,4 km</b><span>kortste looproute, indicatief</span></div>
+            <div class="pill"><b>5</b><span>gratis opties binnen 7 km</span></div>
+            <div class="pill"><b>GPS</b><span>alleen na toestemming</span></div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="gpsBtn">📍 Gebruik mijn locatie</button>
+          <a class="button blue" id="topRoute" target="_blank" rel="noopener">🚗 Navigeer naar #1</a>
+          <button id="copyBtn">📋 Kopieer top 5</button>
+        </div>
+      </div>
+
+      <div class="status" id="status">
+        GPS staat uit. De routeknoppen werken alsnog vanaf Dreef 2, Haarlem. Voor live route vanaf jouw positie: tik op “Gebruik mijn locatie”.
+      </div>
+
+      <div class="note">
+        Android Chrome laat locatie alleen toe op HTTPS, localhost, of een geïnstalleerde PWA via een veilige host. Upload deze index.html dus naar GitHub Pages, Netlify, Vercel of Cloudflare Pages.
+      </div>
+    </section>
+
+    <section class="cards" id="cards"></section>
+
+    <div class="sticky">
+      <div class="stickyInner">
+        <button class="primary" id="gpsBtnSticky">📍 GPS</button>
+        <a class="button blue" id="topRouteSticky" target="_blank" rel="noopener">🚗 #1 route</a>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <strong>Laatste inhoudelijke check:</strong> 16 april 2026. Gebruik dit als navigatiehulp, niet als boeteverzekering. Straatbord wint, altijd.
+    </footer>
+  </main>
+
+  <script>
+    const origin = {
+      label: "Dreef 2, 2012 HR Haarlem",
+      query: "Dreef 2, 2012 HR Haarlem, Nederland",
+      lat: 52.3747,
+      lng: 4.6300
+    };
+
+    const spots = [
+      {
+        rank: 1,
+        title: "Dreef 32 t/m 36",
+        address: "Dreef 32, 2012 HS Haarlem, Nederland",
+        lat: 52.3711306,
+        lng: 4.6287806,
+        walkFromDreef2: "± 0,35 tot 0,45 km",
+        driveHint: "Rijd vanaf Dreef 2 zuidwaarts over de Dreef. Zoek aan/naast Dreef 32-36.",
+        walkHint: "Loop terug noordwaarts langs de Dreef richting Houtplein/Dreef 2.",
+        official: "Gemeente Haarlem: Dreef 2 t/m 30 valt onder vergunning/betaald; de rest is vrij parkeren.",
+        reliability: "Beste eerste poging"
+      },
+      {
+        rank: 2,
+        title: "Kamperlaan, even nummers",
+        address: "Kamperlaan 52, 2012 JA Haarlem, Nederland",
+        lat: 52.3707127,
+        lng: 4.6351281,
+        walkFromDreef2: "± 0,65 tot 0,90 km",
+        driveHint: "Rijd richting Kamperlaan. Zoek vooral bij even huisnummers. Vermijd de oneven zijde en de genoemde ventweg-zone.",
+        walkHint: "Loop via Dreef/Houtplein richting Kamperlaan terug naar Dreef 2.",
+        official: "Gemeente Haarlem: op Kamperlaan liggen alleen oneven nummers en de ventweg aan de zuidzijde tussen Vlietsorgstraat en Buitenrustlaan 31 in zone Zuid; overige huisnummers liggen niet in een parkeerzone.",
+        reliability: "Sterke woonwijk-optie"
+      },
+      {
+        rank: 3,
+        title: "Drossestraat 16, 22 t/m 110 even",
+        address: "Drossestraat 22, 2011 XW Haarlem, Nederland",
+        lat: 52.37695,
+        lng: 4.63375,
+        walkFromDreef2: "± 0,70 tot 0,95 km",
+        driveHint: "Navigeer naar Drossestraat 22. Let scherp op lokale vakken, laden/lossen en tijdelijke borden.",
+        walkHint: "Loop via Houtplein/Kleine Houtstraat richting Dreef 2.",
+        official: "Gemeente Haarlem: Drossestraat nummers 1 t/m 11 oneven en 16, 22 t/m 110 even liggen niet in een parkeerzone.",
+        reliability: "Goed, maar drukker/centrumgevoel"
+      },
+      {
+        rank: 4,
+        title: "Kleine Houtweg vanaf 105",
+        address: "Kleine Houtweg 105, 2012 CE Haarlem, Nederland",
+        lat: 52.36925,
+        lng: 4.62985,
+        walkFromDreef2: "± 0,85 tot 1,15 km",
+        driveHint: "Rijd richting Kleine Houtweg. Zoek vanaf 105 en controleer of je niet in het gereguleerde deel 1 t/m 103 of 127 t/m 133 staat.",
+        walkHint: "Loop noordwaarts via Kleine Houtweg/Dreef terug.",
+        official: "Gemeente Haarlem: bij Kleine Houtweg gelden specifieke zonegrenzen. Nummers 1 t/m 103 vallen in centrum; 127 t/m 133 vallen in Zuid. De tussenliggende vrije stukken vragen extra bordcheck.",
+        reliability: "Alleen gebruiken met extra bordcheck"
+      },
+      {
+        rank: 5,
+        title: "Schalkwijkerstraat vanaf 38 even / 61 oneven",
+        address: "Schalkwijkerstraat 38, 2033 JD Haarlem, Nederland",
+        lat: 52.37455,
+        lng: 4.64485,
+        walkFromDreef2: "± 1,30 tot 1,65 km",
+        driveHint: "Rijd oostwaarts richting Schalkwijkerstraat. Parkeer pas voorbij de officiële zonegrens: na 36 even of na 59A oneven.",
+        walkHint: "Loop terug richting centrum via Kampersingel/Houtplein naar Dreef 2.",
+        official: "Gemeente Haarlem: Schalkwijkerstraat 2 t/m 36 even, 1 t/m 59A oneven en 11A t/m 11B liggen in zone Oost; overige huisnummers liggen niet in een parkeerzone.",
+        reliability: "Verder weg, bruikbaar als fallback"
+      }
+    ];
+
+    let userLocation = null;
+
+    const cards = document.getElementById("cards");
+    const statusEl = document.getElementById("status");
+    const gpsBtn = document.getElementById("gpsBtn");
+    const gpsBtnSticky = document.getElementById("gpsBtnSticky");
+    const copyBtn = document.getElementById("copyBtn");
+    const topRoute = document.getElementById("topRoute");
+    const topRouteSticky = document.getElementById("topRouteSticky");
+
+    function enc(value){ return encodeURIComponent(value); }
+
+    function mapsDir(destination, mode, fromUser = true){
+      const originParam = fromUser && userLocation
+        ? `${userLocation.lat},${userLocation.lng}`
+        : origin.query;
+      return `https://www.google.com/maps/dir/?api=1&origin=${enc(originParam)}&destination=${enc(destination)}&travelmode=${enc(mode)}`;
+    }
+
+    function mapsSearch(query){
+      return `https://www.google.com/maps/search/?api=1&query=${enc(query)}`;
+    }
+
+    function haversineKm(aLat, aLng, bLat, bLng){
+      const R = 6371;
+      const dLat = (bLat - aLat) * Math.PI / 180;
+      const dLng = (bLng - aLng) * Math.PI / 180;
+      const s1 = Math.sin(dLat/2) ** 2;
+      const s2 = Math.cos(aLat*Math.PI/180) * Math.cos(bLat*Math.PI/180) * Math.sin(dLng/2) ** 2;
+      return 2 * R * Math.asin(Math.sqrt(s1 + s2));
+    }
+
+    function render(){
+      cards.innerHTML = "";
+      spots.forEach(spot => {
+        const liveDistance = userLocation
+          ? `${haversineKm(userLocation.lat, userLocation.lng, spot.lat, spot.lng).toFixed(2).replace(".", ",")} km hemelsbreed vanaf jou`
+          : "GPS uit, live afstand verborgen";
+
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="cardHead">
+            <div class="rank">${spot.rank}</div>
+            <div class="titleWrap">
+              <h2>${spot.title}</h2>
+              <p>${spot.address}</p>
+            </div>
+            <span class="badge">Vrij segment</span>
+          </div>
+
+          <div class="cardBody">
+            <div class="meta">
+              <div class="metaItem">
+                <span>Loopafstand vanaf Dreef 2</span>
+                <b>${spot.walkFromDreef2}</b>
+              </div>
+              <div class="metaItem">
+                <span>Live afstand</span>
+                <b>${liveDistance}</b>
+              </div>
+              <div class="metaItem">
+                <span>Betrouwbaarheid</span>
+                <b>${spot.reliability}</b>
+              </div>
+              <div class="metaItem">
+                <span>Navigatieadres</span>
+                <b>${spot.address.split(", Nederland")[0]}</b>
+              </div>
+            </div>
+
+            <div class="sourceBox">${spot.official}</div>
+
+            <p class="mini"><b>Auto:</b> ${spot.driveHint}</p>
+            <p class="mini"><b>Terug lopen:</b> ${spot.walkHint}</p>
+
+            <div class="routeGrid">
+              <a class="button primary" target="_blank" rel="noopener" href="${mapsDir(spot.address, "driving")}">🚗 Auto</a>
+              <a class="button blue" target="_blank" rel="noopener" href="${mapsDir(spot.address, "bicycling")}">🚲 Fiets</a>
+              <a class="button" target="_blank" rel="noopener" href="${mapsDir(spot.address, "walking")}">🚶 Lopen</a>
+              <a class="button" target="_blank" rel="noopener" href="${mapsSearch(spot.address)}">🗺️ Open plek</a>
+              <a class="button" target="_blank" rel="noopener" href="${mapsDir(origin.query, "walking", false).replace(enc(origin.query), enc(spot.address)).replace(enc(spot.address), enc(origin.query))}">↩️ Terug naar Dreef 2</a>
+              <button data-copy="${spot.address}">📋 Kopieer adres</button>
+            </div>
+          </div>
+        `;
+        cards.appendChild(card);
+      });
+
+      document.querySelectorAll("button[data-copy]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(btn.getAttribute("data-copy"));
+            setStatus("Adres gekopieerd.");
+          } catch(e){
+            setStatus("Kopiëren lukte niet. Houd het adres ingedrukt en kopieer handmatig.");
+          }
+        });
+      });
+
+      topRoute.href = mapsDir(spots[0].address, "driving");
+      topRouteSticky.href = topRoute.href;
+    }
+
+    function setStatus(message){
+      statusEl.textContent = message;
+    }
+
+    async function copyTopFive(){
+      const text = spots.map(s =>
+        `${s.rank}. ${s.title} - ${s.address} - ${s.walkFromDreef2} lopen vanaf Dreef 2. ${s.official}`
+      ).join("\n");
+      try {
+        await navigator.clipboard.writeText(text);
+        setStatus("Top 5 gekopieerd.");
+      } catch(e){
+        setStatus("Kopiëren lukte niet. Je browser blokkeert waarschijnlijk clipboard-toegang.");
+      }
+    }
+
+    function askLocation(){
+      if(!("geolocation" in navigator)){
+        setStatus("Deze browser ondersteunt geen geolocatie. Gebruik de Google Maps knoppen vanaf Dreef 2.");
+        return;
+      }
+
+      setStatus("Locatie wordt gevraagd. Tik op Toestaan in Android Chrome.");
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+            accuracy: Math.round(position.coords.accuracy)
+          };
+          setStatus(`GPS actief. Nauwkeurigheid ongeveer ${userLocation.accuracy} meter. Routeknoppen gebruiken nu jouw huidige locatie.`);
+          render();
+        },
+        error => {
+          const messages = {
+            1: "Locatie geweigerd. Routeknoppen blijven werken vanaf Dreef 2.",
+            2: "Locatie niet beschikbaar. Check GPS, wifi of mobiele data.",
+            3: "Locatie duurde te lang. Probeer opnieuw buiten of dichter bij een raam."
+          };
+          setStatus(messages[error.code] || "Locatie kon niet worden opgehaald.");
+        },
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 20000 }
+      );
+    }
+
+    gpsBtn.addEventListener("click", askLocation);
+    gpsBtnSticky.addEventListener("click", askLocation);
+    copyBtn.addEventListener("click", copyTopFive);
+
+    render();
+  </script>
+</body>
+</html>
